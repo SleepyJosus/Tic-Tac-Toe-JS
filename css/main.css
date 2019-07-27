@@ -1,0 +1,35 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  h1, h3 {
+      margin: 1vmin;
+  }
+
+  section.board {
+    display: grid;
+    grid-template-columns: repeat(3, 10vmin);
+    grid-template-rows: repeat(3, 10vmin);
+  }
+  
+  section.board div {
+    border: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6vmin;
+  }
+
+  button {
+      margin: 4vmin;
+  }
