@@ -36,6 +36,7 @@ function handleClick(evt) {
     if(board[col][row] === 0 && !winner) {
         board[col][row] = turn;
         turn *= -1;
+        winner = getWinner();
     }
     render();
 }
@@ -47,5 +48,66 @@ function render() {
             div.textContent = ICONS[cell];
         });
     });
-    msg.textContent = `${ICONS[turn]}'s Turn`
+    if (winner === 'T') {
+        msg.textContent = "It's a Tie!"        
+    } else {
+        msg.textContent = winner ? `${ICONS[winner]} wins!`:`${ICONS[turn]}'s Turn`;
+    }
+}
+
+function getWinner() {
+    if (checkCols() || checkRows() || checkDiags()) {
+        return turn *= -1;
+    }
+    if (isBoardFull()) return 'T';
+    return null;
+}
+
+function checkCols() {
+    let total = [];
+    board.forEach(function(colArr, colIdx) {
+        total[colIdx] = 0;
+        colArr.forEach(function(cell) {
+            total[colIdx] += cell;
+        });
+    });
+    return isWinner(total);
+}
+
+function checkRows() {
+    let total = [];
+    for (rowIdx = 0; rowIdx < board.length; rowIdx++) {
+        total[rowIdx] = 0;
+        board.forEach(function(colArr) {
+            total[rowIdx] += colArr[rowIdx] 
+        });
+    }
+    return isWinner(total);
+}
+
+function checkDiags() {
+    let total = [];
+    total[0] = board[0][0] + board[1][1] + board[2][2];
+    total[1] = board[0][2] + board[1][1] + board[2][0];
+    return isWinner(total);
+}
+
+function isWinner(array) {
+    for (i = 0; i < array.length; i++) {
+        if (Math.abs(array[i]) === 3) {
+            return true;
+        } 
+    } 
+    return false;
+}
+
+function isBoardFull() {
+    let check = []
+    let total = 0
+    board.forEach(function(colArr, colIdx) {
+        check[colIdx] = colArr.indexOf(0);
+    });
+    check.forEach(e => total += e);
+    if (total === -3) return true;
+    return false;
 }
